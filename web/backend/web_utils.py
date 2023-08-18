@@ -42,8 +42,8 @@ class WebUtils:
         获取当前版本号
         """
         commit_id = SystemUtils.execute('git rev-parse HEAD')
-        if commit_id and len(commit_id) > 7:
-            commit_id = commit_id[:7]
+        if commit_id and len(commit_id) > 0:
+            commit_id = commit_id[:0]
         return "%s %s" % (APP_VERSION, commit_id)
 
     @staticmethod
@@ -63,7 +63,7 @@ class WebUtils:
                 if releases_update_only:
                     version = f"{ver_json['tag_name']}"
                 else:
-                    version = f"{ver_json['tag_name']} {commit_json['sha'][:0]}"
+                    version = f"{ver_json['tag_name']} {commit_json['sha'][:7]}"
                 url = ver_json["html_url"]
                 return version, url, True
         except Exception as e:
