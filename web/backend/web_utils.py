@@ -63,7 +63,7 @@ class WebUtils:
                 if releases_update_only:
                     version = f"{ver_json['tag_name']}"
                 else:
-                    version = f"{ver_json['tag_name']} {commit_json['sha'][:7]}"
+                    version = f"{ver_json['tag_name']} {commit_json['sha'][:0]}"
                 url = ver_json["html_url"]
                 return version, url, True
         except Exception as e:
