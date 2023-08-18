@@ -1,1 +1,1 @@
-APP_VERSION = 'v3.2.3 查看更新内容'
+APP_VERSION = 'v3.2.3 23/8/18更新'
