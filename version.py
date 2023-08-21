@@ -1,1 +1,1 @@
-APP_VERSION = 'v3.2.3 23/8/18更新'
+APP_VERSION = 'v3.2.3 23/8/21更新'
