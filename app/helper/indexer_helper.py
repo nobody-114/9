@@ -30,39 +30,9 @@ class IndexerHelper:
         except Exception as err:
             pass
 
-    def get_builtin_indexers(self):
-        """
-        获取所有内置站点
-        """
-        _indexers = []
-        try:
-            with open(join(Config().get_inner_config_path(), "sites.dat"), "r") as f:
-                lines = f.readlines()
-                for line in lines:
-                    base64_string = line.strip()
-                    decoded_dict = self.decode_base64_to_dict(base64_string)
-                    if decoded_dict:
-                        _indexers.append(decoded_dict)
-        except Exception as err:
-            log.error(f"【Indexers】获取所有内置站点失败：{str(err)}")
-            return []
-        return _indexers
-
-    def get_builtin_rss_site_graps(self, indexers):
-        """
-        获取索引对应的促销信息
-        """
-        _grap_dicts = {}
-        for indexer in indexers:
-            if "price" in indexer:
-                price = indexer["price"]
-                url = indexer["domain"]
-                parsed_url = urlparse(url)
-                domain = parsed_url.netloc
-                if price and domain:
-                    graps_dict = {domain: price}
-                    _grap_dicts.update(graps_dict)
-        return _grap_dicts
+    def get_all_indexers(self):
+        self.init_config()
+        return self._indexers
 
     def get_indexer_info(self, url, public=False):
         for indexer in self._indexers:
@@ -71,15 +41,6 @@ class IndexerHelper:
             if StringUtils.url_equal(indexer.get("domain"), url):
                 return indexer
         return None
-
-    def get_rss_site_graps(self):
-        """
-        获取索引对应的促销信息
-        """
-        if self._builtiInGrapDicts:
-            return _builtiInGrapDicts
-        _indexers = self.get_builtin_indexers()
-        return self.get_builtin_rss_site_graps(_indexers)
 
     def get_indexer(self,
                     url,
@@ -115,16 +76,6 @@ class IndexerHelper:
                                    pri=pri)
         return None
 
-    def decode_base64_to_dict(self, base64_string):
-        """
-        base64字符串转换json字典
-        """
-        try:
-            decoded_bytes = b64decode(base64_string)
-            decoded_json = decoded_bytes.decode("utf-8")
-            return json.loads(decoded_json)
-        except Exception as e:
-            return None
 
 class IndexerConf(object):
 
